@@ -30,19 +30,30 @@ paths:
   /users/me:
       get:
         description: Get the user currently logged in
+        tags:
+          - User
         responses:
           200:
+            description: The logged in User
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Self"
+          401:
+            $ref: "#/components/responses/Unauthorized"
+        operationId: getMyself
+  /users/{id}:
+      get:
+        description: Get other user, if ID matches with own, redirect to own page
+        tags:
+          - User
+        responses:
+          200:
+            description: The User searched for
             content:
               application/json:
                 schema:
                   $ref: "#/components/schemas/User"
-          401:
-            content:
-              text/plain:
-                schema:
-                  $ref: "#/components/schemas/UnauthorizedErrors"
-        operationId: getMyself
-
   /refresh:
     post:
       description: Refresh the current Session
@@ -90,6 +101,16 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  responses:
+    Unauthorized:
+      description: The User is unathorized
+      content:
+        text/plain:
+          schema:
+            type: string
+            enum:
+              - token-expired
+              - token-invalid
   schemas:
     Token:
         description: Content with the Refresh Token, Auth Token and the time it expires as UTC timestamp
@@ -114,15 +135,15 @@ components:
             type: integer
           debt:
             type: number
+    Self:
+      properties:
+        username:
+          type: string
     User:
       properties:
         username:
           type: string
-    UnauthorizedErrors:
-      type: string
-      enum:
-        - token-expired
-        - token-invalid
+
 
 
 
