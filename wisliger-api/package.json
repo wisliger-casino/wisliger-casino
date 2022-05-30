@@ -1,0 +1,16 @@
+{
+  "name": "wisliger-api",
+  "version": "0.0.1",
+  "description": "API for the Wisliger Casino",
+  "main": "index.js",
+  "repository": "https://github.com/wisliger-casino/wisliger-api.git",
+  "author": "C0RR1T",
+  "license": "MIT",
+  "dependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.1"
+  },
+  "scripts": {
+    "generate-server": "openapi-generator-cli generate -i wisliger-spec.yml -g kotlin-spring -o ../wisliger-backend/build/generated/openapi-spring",
+    "generate-client": "openapi-generator-cli generate -i wisliger-spec.yml -g typescript-fetch -o ../wisliger-frontend/src/generated"
+  }
+}

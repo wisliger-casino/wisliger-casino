@@ -1,0 +1,44 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js add @openapitools/openapi-generator-cli: ^2.4.26
+
+PATH: 
+  C:\Program Files (x86)\VMware\VMware Player\bin\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Python39\Scripts\;C:\Python39\;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files\AdoptOpenJDK\jdk-11.0.8.10-hotspot\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files (x86)\dotnet\;C:\Program Files\PostgreSQL\13\bin;C:\Program Files\PostgreSQL\13\lib;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Users\corsi\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\qemu;C:\Users\corsi\AppData\Roaming\local\bin;C:\Users\corsi\.cargo\bin;C:\Users\corsi\AppData\Local\Microsoft\WindowsApps;C:\Users\corsi\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\corsi\.dotnet\tools;C:\Users\corsi\AppData\Roaming\cabal\bin;C:\tools\ghc-9.0.1\bin;C:\tools\msys64;C:\Users\corsi\AppData\Local\GitHubDesktop\bin;C:\Users\corsi\AppData\Roaming\npm;C:\Users\corsi\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Program Files\qemu\;
+
+Yarn version: 
+  1.22.18
+
+Node version: 
+  16.14.2
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@openapitools%2fopenapi-generator-cli:: Not found
+      at Request.params.callback [as _callback] (C:\Users\corsi\AppData\Roaming\nvm\v16.14.2\node_modules\yarn\lib\cli.js:66138:18)
+      at Request.self.callback (C:\Users\corsi\AppData\Roaming\nvm\v16.14.2\node_modules\yarn\lib\cli.js:140883:22)
+      at Request.emit (node:events:526:28)
+      at Request.<anonymous> (C:\Users\corsi\AppData\Roaming\nvm\v16.14.2\node_modules\yarn\lib\cli.js:141855:10)
+      at Request.emit (node:events:526:28)
+      at IncomingMessage.<anonymous> (C:\Users\corsi\AppData\Roaming\nvm\v16.14.2\node_modules\yarn\lib\cli.js:141777:12)
+      at Object.onceWrapper (node:events:645:28)
+      at IncomingMessage.emit (node:events:538:35)
+      at endReadableNT (node:internal/streams/readable:1345:12)
+      at processTicksAndRejections (node:internal/process/task_queues:83:21)
+
+npm manifest: 
+  {
+    "name": "wisliger-api",
+    "version": "0.0.1",
+    "description": "API for the Wisliger Casino",
+    "main": "index.js",
+    "repository": "https://github.com/wisliger-casino/wisliger-api.git",
+    "author": "C0RR1T",
+    "license": "MIT"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

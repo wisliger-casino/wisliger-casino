@@ -1,0 +1,8 @@
+openapi: "3.0.3"
+info:
+  title: "Wisliger Casino API"
+  version: "0.0.1"
+  description: "Casino of Wislig"
+paths:
+  /login:
+
