@@ -5,4 +5,129 @@ info:
   description: "Casino of Wislig"
 paths:
   /login:
+    post:
+      description: Log in with Discord
+      operationId: login
+      security: []
+      tags:
+        - Authorization
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              description: Code received by the Discord Login
+              type: string
+              example: NhhvTDYsFcdgNLnnLijcl7Ku7bEEeee
+      responses:
+        200:
+          description: Successfully logged in
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+        401:
+          description: Discord didn't accept the code
+  /users/me:
+      get:
+        description: Get the user currently logged in
+        responses:
+          200:
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/User"
+          401:
+            content:
+              text/plain:
+                schema:
+                  $ref: "#/components/schemas/UnauthorizedErrors"
+        operationId: getMyself
 
+  /refresh:
+    post:
+      description: Refresh the current Session
+      operationId: refresh
+      tags:
+        - Authorization
+      security: []
+      responses:
+        200:
+          description: Successfully refreshed the token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+      parameters:
+        - name: Refresh-Token
+          in: header
+          schema:
+            description: The Refresh Token received on login
+            type: string
+          required: true
+  /leaderboard:
+    get:
+      description: Get the current Leaderboard
+      operationId: leaderboard
+      tags:
+        - Social
+      security: []
+      responses:
+        200:
+          description: Leaderboard Ranked by Current credit - debt
+          content:
+            application/json:
+              schema:
+                properties:
+                  users:
+                    type: array
+                    items:
+                        $ref: "#/components/schemas/LeaderboardUsers"
+
+
+components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Token:
+        description: Content with the Refresh Token, Auth Token and the time it expires as UTC timestamp
+        properties:
+          refreshToken:
+            type: string
+            description: Refresh token used to refresh the Auth token when the Auth token is expired.
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
+          token:
+            type: string
+            description: Auth token allowing a user to access the website
+            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
+          expires:
+            type: number
+            description: the UTC timestamp of the time the auth token expires.
+            example: 1653920748353
+    LeaderboardUsers:
+        properties:
+          username:
+            type: string
+          credit:
+            type: integer
+          debt:
+            type: number
+    User:
+      properties:
+        username:
+          type: string
+    UnauthorizedErrors:
+      type: string
+      enum:
+        - token-expired
+        - token-invalid
+
+
+
+
+
+
+security:
+  - bearerAuth: []
