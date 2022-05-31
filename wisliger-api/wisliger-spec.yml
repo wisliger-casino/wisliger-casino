@@ -4,7 +4,27 @@ info:
   version: "0.0.1"
   description: "Casino of Wislig"
 paths:
-  /login:
+  /token:
+    put:
+      description: Refresh the current Session
+      operationId: refresh
+      tags:
+        - Authorization
+      security: []
+      responses:
+        200:
+          description: Successfully refreshed the token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
+      parameters:
+        - name: Refresh-Token
+          in: header
+          schema:
+            description: The Refresh Token received on login
+            type: string
+          required: true
     post:
       description: Log in with Discord
       operationId: login
@@ -25,6 +45,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Token"
+        201:
+          description: When a new User is created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Token"
         401:
           description: Discord didn't accept the code
   /users/me:
@@ -32,6 +58,7 @@ paths:
         description: Get the user currently logged in
         tags:
           - User
+          - Self
         responses:
           200:
             description: The logged in User
@@ -45,6 +72,14 @@ paths:
   /users/{id}:
       get:
         description: Get other user, if ID matches with own, redirect to own page
+        security: []
+        parameters:
+          - name: id
+            schema:
+              type: string
+              description: ID of the User
+            in: path
+            required: true
         tags:
           - User
         responses:
@@ -54,27 +89,6 @@ paths:
               application/json:
                 schema:
                   $ref: "#/components/schemas/User"
-  /refresh:
-    post:
-      description: Refresh the current Session
-      operationId: refresh
-      tags:
-        - Authorization
-      security: []
-      responses:
-        200:
-          description: Successfully refreshed the token
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Token"
-      parameters:
-        - name: Refresh-Token
-          in: header
-          schema:
-            description: The Refresh Token received on login
-            type: string
-          required: true
   /leaderboard:
     get:
       description: Get the current Leaderboard
@@ -108,9 +122,11 @@ components:
         text/plain:
           schema:
             type: string
+            example: token-expired
             enum:
               - token-expired
               - token-invalid
+              - no-token
   schemas:
     Token:
         description: Content with the Refresh Token, Auth Token and the time it expires as UTC timestamp
@@ -137,7 +153,22 @@ components:
             type: number
     Self:
       properties:
+        credit:
+          type: integer
+        debt:
+          type: integer
+        id:
+          type: string
+        language:
+          type: string
+          enum:
+            - de
+            - en
+            - de-ch
+            - uwu
         username:
+          type: string
+        description:
           type: string
     User:
       properties:

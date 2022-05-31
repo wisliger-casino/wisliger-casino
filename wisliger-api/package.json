@@ -7,10 +7,16 @@
   "author": "C0RR1T",
   "license": "MIT",
   "dependencies": {
-    "@openapitools/openapi-generator-cli": "^2.5.1"
   },
   "scripts": {
     "generate-server": "openapi-generator-cli generate -i wisliger-spec.yml -g kotlin-spring -o ../wisliger-backend/build/generated/openapi-spring",
-    "generate-client": "openapi-generator-cli generate -i wisliger-spec.yml -g typescript-fetch -o ../wisliger-frontend/src/generated"
+    "generate-client": "openapi-generator-cli generate -i wisliger-spec.yml -g typescript-fetch -o ../wisliger-frontend/src/generated",
+    "generate-doc": "openapi-generator-cli generate -i wisliger-spec.yml -g html2 -o ../wisliger-docs/api",
+    "generate": "concurrently run \"yon run generate-server\" \"yon run generate-client\" \"yon run generate-doc\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.1",
+    "yarn-or-npm": "^3.0.1",
+    "@openapitools/openapi-generator-cli": "^2.5.1"
   }
 }
