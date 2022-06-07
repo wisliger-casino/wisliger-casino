@@ -6,8 +6,7 @@
   "repository": "https://github.com/wisliger-casino/wisliger-api.git",
   "author": "C0RR1T",
   "license": "MIT",
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "generate-server": "openapi-generator-cli generate -i wisliger-spec.yml -g kotlin-spring -o ../wisliger-backend/build/generated/openapi-spring",
     "generate-client": "openapi-generator-cli generate -i wisliger-spec.yml -g typescript-fetch -o ../wisliger-frontend/src/generated",
@@ -15,8 +14,9 @@
     "generate": "concurrently run \"yon run generate-server\" \"yon run generate-client\" \"yon run generate-doc\""
   },
   "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.5.1",
     "concurrently": "^7.2.1",
-    "yarn-or-npm": "^3.0.1",
-    "@openapitools/openapi-generator-cli": "^2.5.1"
+    "swagger-ui": "^4.11.1",
+    "yarn-or-npm": "^3.0.1"
   }
 }
