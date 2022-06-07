@@ -69,6 +69,24 @@ paths:
           401:
             $ref: "#/components/responses/Unauthorized"
         operationId: getMyself
+  /users/me/username:
+      patch:
+          description: Change your username
+          tags:
+            - Self
+          operationId: changeUsername
+          responses:
+            200:
+              description: Succesfully changed the username
+            401:
+              $ref: "#/components/responses/Unauthorized"
+          requestBody:
+            required: true
+            description: the new username
+            content:
+              text/plain:
+                schema:
+                  type: string
   /users/{id}:
       get:
         description: Get user by user id
