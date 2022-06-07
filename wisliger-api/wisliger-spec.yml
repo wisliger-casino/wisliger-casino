@@ -71,7 +71,7 @@ paths:
         operationId: getMyself
   /users/{id}:
       get:
-        description: Get other user, if ID matches with own, redirect to own page
+        description: Get user by user id
         security: []
         parameters:
           - name: id
@@ -106,7 +106,7 @@ paths:
                   users:
                     type: array
                     items:
-                        $ref: "#/components/schemas/LeaderboardUsers"
+                        $ref: "#/components/schemas/SmallUser"
 
 
 components:
@@ -143,7 +143,7 @@ components:
             type: number
             description: the UTC timestamp of the time the auth token expires.
             example: 1653920748353
-    LeaderboardUsers:
+    SmallUser:
         properties:
           username:
             type: string
@@ -151,10 +151,13 @@ components:
             type: integer
           debt:
             type: number
+          description:
+            type: string
     Self:
       properties:
         credit:
           type: integer
+          default: 50
         debt:
           type: integer
         id:
@@ -170,6 +173,8 @@ components:
           type: string
         description:
           type: string
+        private:
+          type: boolean
     User:
       properties:
         username:
