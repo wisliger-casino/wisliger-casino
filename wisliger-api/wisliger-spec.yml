@@ -107,6 +107,37 @@ paths:
               application/json:
                 schema:
                   $ref: "#/components/schemas/User"
+  /users/me/balance:
+    put:
+      description: Managing current balance of user
+      tags:
+        - Self
+      requestBody:
+        description: The Action the user wants to make and the amount for this transaction
+        content:
+          application/json:
+            schema:
+              properties:
+                action:
+                  type: string
+                  enum:
+                    - takeLoan
+                    - payBack
+                amount:
+                  type: integer
+      responses:
+        401:
+          $ref: "#/components/responses/Unauthorized"
+        400:
+          description: If the transaction failed
+          content:
+            text/plain:
+              schema:
+                enum:
+                  - not-enough-balance
+                  - too-much-loan
+        200:
+          description: Successfully made transaction
   /leaderboard:
     get:
       description: Get the current Leaderboard
