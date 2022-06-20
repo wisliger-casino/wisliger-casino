@@ -130,6 +130,7 @@ paths:
           content:
             text/plain:
               schema:
+                type: string
                 enum:
                   - not-enough-balance
                   - too-much-loan
@@ -153,6 +154,25 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/SmallUser"
+  /games:
+    post:
+      description: Create a game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                gameType:
+                  type: string
+                  enum:
+                    - blackJack
+                    - underOverSeven
+
+      tags:
+        - Games
+      responses:
+        200:
+          description: Successfully created game
 
 
 components:
