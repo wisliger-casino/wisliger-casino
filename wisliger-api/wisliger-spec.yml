@@ -10,7 +10,7 @@ paths:
       operationId: refresh
       tags:
         - Authorization
-      security: []
+      security: [ ]
       responses:
         200:
           description: Successfully refreshed the token
@@ -28,7 +28,7 @@ paths:
     post:
       description: Log in with Discord
       operationId: login
-      security: []
+      security: [ ]
       tags:
         - Authorization
       requestBody:
@@ -54,39 +54,36 @@ paths:
         401:
           description: Discord didn't accept the code
   /users/me:
-      get:
-        description: Get the user currently logged in
-        tags:
-          - User
-          - Self
-        responses:
-          200:
-            description: The logged in User
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Self"
-          401:
-            $ref: "#/components/responses/Unauthorized"
-        operationId: getMyself
-  /users/me/username:
-      patch:
-          description: Change your username
-          tags:
-            - Self
-          operationId: changeUsername
-          responses:
-            200:
-              description: Succesfully changed the username
-            401:
-              $ref: "#/components/responses/Unauthorized"
-          requestBody:
-            required: true
-            description: the new username
-            content:
-              text/plain:
-                schema:
-                  type: string
+    get:
+      description: Get the user currently logged in
+      tags:
+        - User
+        - Self
+      responses:
+        200:
+          description: The logged in User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Self"
+        401:
+          $ref: "#/components/responses/Unauthorized"
+      operationId: getMyself
+    put:
+      description: Change the user
+      tags:
+        - Self
+      responses:
+        200:
+          description: Successfully changed
+        401:
+          $ref: "#/components/responses/Unauthorized"
+      operationId: changeMyself
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditUser"
   /users/{id}:
       get:
         description: Get user by user id
@@ -144,7 +141,7 @@ paths:
       operationId: leaderboard
       tags:
         - Social
-      security: []
+      security: [ ]
       responses:
         200:
           description: Leaderboard Ranked by Current credit - debt
@@ -155,7 +152,7 @@ paths:
                   users:
                     type: array
                     items:
-                        $ref: "#/components/schemas/SmallUser"
+                      $ref: "#/components/schemas/SmallUser"
 
 
 components:
@@ -178,30 +175,30 @@ components:
               - no-token
   schemas:
     Token:
-        description: Content with the Refresh Token, Auth Token and the time it expires as UTC timestamp
-        properties:
-          refreshToken:
-            type: string
-            description: Refresh token used to refresh the Auth token when the Auth token is expired.
-            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
-          token:
-            type: string
-            description: Auth token allowing a user to access the website
-            example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
-          expires:
-            type: number
-            description: the UTC timestamp of the time the auth token expires.
-            example: 1653920748353
+      description: Content with the Refresh Token, Auth Token and the time it expires as UTC timestamp
+      properties:
+        refreshToken:
+          type: string
+          description: Refresh token used to refresh the Auth token when the Auth token is expired.
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
+        token:
+          type: string
+          description: Auth token allowing a user to access the website
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
+        expires:
+          type: number
+          description: the UTC timestamp of the time the auth token expires.
+          example: 1653920748353
     SmallUser:
-        properties:
-          username:
-            type: string
-          credit:
-            type: integer
-          debt:
-            type: number
-          description:
-            type: string
+      properties:
+        username:
+          type: string
+        credit:
+          type: integer
+        debt:
+          type: number
+        description:
+          type: string
     Self:
       properties:
         credit:
@@ -212,12 +209,7 @@ components:
         id:
           type: string
         language:
-          type: string
-          enum:
-            - de
-            - en
-            - de-ch
-            - uwu
+            $ref: "#/components/schemas/Language"
         username:
           type: string
         description:
@@ -228,6 +220,25 @@ components:
       properties:
         username:
           type: string
+    EditUser:
+      required: []
+      properties:
+        username:
+          type: string
+        description:
+          type: string
+        language:
+          $ref: "#/components/schemas/Language"
+        private:
+          type: boolean
+    Language:
+      default: en
+      type: string
+      enum:
+        - de
+        - en
+        - de-ch
+        - uwu
 
 
 
