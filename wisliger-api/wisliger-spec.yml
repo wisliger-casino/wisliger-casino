@@ -104,6 +104,14 @@ paths:
               application/json:
                 schema:
                   $ref: "#/components/schemas/User"
+          401:
+            description: If the user is private
+            content:
+              text/plain:
+                schema:
+                  type: string
+                  enum:
+                    - user-private
   /users/me/balance:
     put:
       description: Managing current balance of user
@@ -167,12 +175,62 @@ paths:
                   enum:
                     - blackJack
                     - underOverSeven
-
+                stake:
+                  type: integer
+                  description: Amount the user wants to bet
       tags:
         - Games
       responses:
-        200:
+        201:
           description: Successfully created game
+          content:
+            text/plain:
+              schema:
+                description: ID of the game created
+                type: string
+        400:
+          description: If the user already has a game running or if the user has not enough credit
+          content:
+            text/plain:
+              schema:
+                enum:
+                  - not-enough-balance
+                  - already-playing
+        401:
+          $ref: "#/components/responses/Unauthorized"
+
+  /games/blackjack/{id}:
+    put:
+      parameters:
+        - name: id
+          description: ID of the game
+          in: path
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                action:
+                  type: string
+                  enum:
+                    - drawCard
+                    - endGame
+                    - chooseOne
+                    - chooseEleven
+      responses:
+        200:
+          description: Successfully made move
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    description: hallo
+        401:
+          $ref: "#/components/responses/Unauthorized"
+
+
 
 
 components:
@@ -206,17 +264,19 @@ components:
           description: Auth token allowing a user to access the website
           example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.PuN8pAe05CZcEO1VR1_P2QTQIZHv4rw2-PzQhRGetLM
         expires:
-          type: number
+          type: integer
           description: the UTC timestamp of the time the auth token expires.
           example: 1653920748353
     SmallUser:
       properties:
+        id:
+          type: string
         username:
           type: string
         credit:
           type: integer
         debt:
-          type: number
+          type: integer
         description:
           type: string
     Self:
@@ -240,6 +300,14 @@ components:
       properties:
         username:
           type: string
+        credit:
+          type: integer
+        debt:
+          type: integer
+        description:
+          type: string
+        id:
+          type: string
     EditUser:
       required: []
       properties:
@@ -259,12 +327,6 @@ components:
         - en
         - de-ch
         - uwu
-
-
-
-
-
-
 
 security:
   - bearerAuth: []
