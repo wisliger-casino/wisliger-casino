@@ -205,6 +205,8 @@ paths:
         - name: id
           description: ID of the game
           in: path
+          schema:
+            type: string
           required: true
       requestBody:
         content:
